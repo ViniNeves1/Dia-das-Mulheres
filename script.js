@@ -25,5 +25,34 @@ function aplicarLettering() {
   }
 }
 
+// Garante que o áudio será reproduzido mesmo com restrições de autoplay do Chrome
+function iniciarAudio() {
+  const audio = document.getElementById('backgroundMusic');
+  if (audio) {
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          console.log('Áudio iniciado com sucesso');
+        })
+        .catch(error => {
+          console.log('Autoplay bloqueado - interação do usuário necessária', error);
+        });
+    }
+  }
+}
+
 // Executa quando a página carrega
-window.addEventListener('load', aplicarLettering);
+window.addEventListener('load', () => {
+  aplicarLettering();
+  iniciarAudio();
+});
+
+// Também tenta reproduzir ao primeiro clique/toque do usuário
+document.addEventListener('click', () => {
+  const audio = document.getElementById('backgroundMusic');
+  if (audio && audio.paused) {
+    audio.play().catch(error => console.log('Erro ao reproduzir áudio:', error));
+  }
+}, { once: true });
+
