@@ -56,3 +56,4 @@ document.addEventListener('click', () => {
   }
 }, { once: true });
 
+alert("Toque em qualquer lugar!")
